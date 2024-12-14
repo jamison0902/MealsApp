@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
@@ -10,20 +11,20 @@ import 'package:meals/providers/filters_provider.dart';
 const kInitialFilters = {
   Filter.glutenFree: false,
   Filter.lactoseFree: false,
-  Filter.vegan: false,
   Filter.vegetarian: false,
+  Filter.vegan: false
 };
 
-class TabScreen extends ConsumerStatefulWidget {
-  const TabScreen({super.key});
+class TabsScreen extends ConsumerStatefulWidget {
+  const TabsScreen({super.key});
 
   @override
-  ConsumerState<TabScreen> createState() {
+  ConsumerState<TabsScreen> createState() {
     return _TabsScreenState();
   }
 }
 
-class _TabsScreenState extends ConsumerState<TabScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -45,7 +46,7 @@ class _TabsScreenState extends ConsumerState<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final availableMeals = ref.watch(filtersMealsProvider);
+    final availableMeals = ref.watch(filteredMealsProvider);
 
     Widget activePage = CategoriesScreen(
       availableMeals: availableMeals,
@@ -73,8 +74,13 @@ class _TabsScreenState extends ConsumerState<TabScreen> {
         currentIndex: _selectedPageIndex,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.set_meal), label: 'Categories'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
+            icon: Icon(Icons.set_meal),
+            label: 'Categories',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Favorites',
+          ),
         ],
       ),
     );
